@@ -1,0 +1,85 @@
+# file: Cargo.toml
+# description: Rust package manifest for the TLD extraction library
+
+[package]
+name = "rust-tld"
+version = "0.1.0"
+edition = "2021"
+authors = ["Andrew Donelson <nlaakald@gmail.com>"]
+description = "A Rust library for extracting fully qualified domain names (FQDNs) from URLs using the Public Suffix List"
+documentation = "https://docs.rs/rust-tld"
+homepage = "https://github.com/yourusername/rust-tld"
+repository = "https://github.com/yourusername/rust-tld"
+license = "MIT OR Apache-2.0"
+keywords = ["domain", "tld", "fqdn", "url", "public-suffix"]
+categories = ["web-programming", "parser-implementations", "network-programming"]
+readme = "README.md"
+exclude = [
+    "/.github",
+    "/target",
+    "*.log",
+    "*.tmp"
+]
+
+[dependencies]
+# Async runtime and utilities
+tokio = { version = "1.35", features = ["full"] }
+
+# HTTP client for downloading public suffix list
+reqwest = { version = "0.11", features = ["json", "stream"] }
+
+# URL parsing
+url = "2.5"
+
+# Error handling and utilities
+thiserror = "1.0"
+
+# Logging (optional, for internal debugging)
+log = { version = "0.4", optional = true }
+
+[dev-dependencies]
+# Testing utilities
+tokio-test = "0.4"
+
+# Example dependencies
+clap = { version = "4.4", features = ["derive"] }
+
+[features]
+default = []
+# Enable internal logging
+logging = ["dep:log"]
+
+# Optional TLS features for reqwest
+native-tls = ["reqwest/native-tls"]
+rustls-tls = ["reqwest/rustls-tls"]
+
+[[example]]
+name = "basic_usage"
+path = "examples/main.rs"
+required-features = []
+
+[lib]
+name = "rust_tld"
+path = "src/lib.rs"
+
+# Documentation settings
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
+# Profile optimizations
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.dev]
+opt-level = 0
+debug = true
+overflow-checks = true
+
+# Workspace configuration (if this becomes part of a larger workspace)
+[workspace]
+members = ["."]
+resolver = "2"
