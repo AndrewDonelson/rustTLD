@@ -1,0 +1,81 @@
+[0;32mFormatting code...[0m
+cargo fmt
+[0;32mRunning clippy linter...[0m
+cargo clippy --all-targets --all-features -- -W clippy::all -W clippy::pedantic -W clippy::nursery
+[0;32mRunning tests...[0m
+cargo test
+
+running 34 tests
+test etld::tests::test_const_new ... ok
+test etld::tests::test_capacity_and_reserve ... ok
+test etld::tests::test_search_empty_list ... ok
+test etld::tests::test_default ... ok
+test etld::tests::test_new_etld ... ok
+test etld::tests::test_clear ... ok
+test etld::tests::test_add_and_search ... ok
+test etld::tests::test_add_with_sort ... ok
+test etld::tests::test_clone ... ok
+test etld::tests::test_iterator ... ok
+test etld::tests::test_sort ... ok
+test fqdn::tests::test_has_scheme ... ok
+test fqdn::tests::test_is_initialized ... ok
+test fqdn::tests::test_count_for_dots ... ok
+test etld::tests::test_concurrent_access ... ok
+test fqdn::tests::test_get_statistics ... ok
+test fqdn::tests::test_parse_invalid_utf8 ... ok
+test fqdn::tests::test_download_invalid_url ... ok
+test fqdn::tests::test_load_from_nonexistent_file ... ok
+test fqdn::tests::test_parse_wrong_file_format ... ok
+test fqdn::tests::test_concurrent_access ... ok
+test fqdn::tests::test_fqdn_extraction_with_test_data ... ok
+test fqdn::tests::test_load_from_directory ... ok
+test fqdn::tests::test_guess ... FAILED
+test tests::test_sync_functions_outside_runtime - should panic ... ok
+test tests::test_sync_functions_in_runtime ... FAILED
+test etld::tests::test_binary_search_performance ... ok
+test fqdn::tests::test_load_from_empty_file ... ok
+test fqdn::tests::test_load_from_valid_test_file ... FAILED
+test etld::tests::test_thread_safety_read_write ... ok
+test tests::test_global_manager_thread_safety ... ok
+test tests::test_validate_origin ... FAILED
+test tests::test_multiple_init_calls ... ok
+test tests::test_init_and_get_fqdn ... FAILED
+
+failures:
+
+---- fqdn::tests::test_guess stdout ----
+
+thread 'fqdn::tests::test_guess' panicked at src/fqdn.rs:863:9:
+assertion failed: fqdn.guess("a.b", 1).is_err()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+---- tests::test_sync_functions_in_runtime stdout ----
+
+thread 'tests::test_sync_functions_in_runtime' panicked at src/lib.rs:317:5:
+can call blocking only when running on the multi-threaded runtime
+
+---- fqdn::tests::test_load_from_valid_test_file stdout ----
+
+thread 'fqdn::tests::test_load_from_valid_test_file' panicked at src/fqdn.rs:957:9:
+assertion failed: result.is_ok()
+
+---- tests::test_validate_origin stdout ----
+
+thread 'tests::test_validate_origin' panicked at src/lib.rs:383:9:
+assertion failed: !result
+
+---- tests::test_init_and_get_fqdn stdout ----
+
+thread 'tests::test_init_and_get_fqdn' panicked at src/lib.rs:374:9:
+assertion failed: result.is_err()
+
+
+failures:
+    fqdn::tests::test_guess
+    fqdn::tests::test_load_from_valid_test_file
+    tests::test_init_and_get_fqdn
+    tests::test_sync_functions_in_runtime
+    tests::test_validate_origin
+
+test result: FAILED. 29 passed; 5 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.32s
+
